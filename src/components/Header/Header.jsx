@@ -2,8 +2,8 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div className="bg-[#461f7f]">
-      <header class="shadow-md">
+    <div className="bg-[#461f7f] sticky top-0 z-50">
+      <header class="">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <div class="flex justify-between h-16 items-center">
             <div class="flex-shrink-0 text-xl font-bold text-blue-600">
