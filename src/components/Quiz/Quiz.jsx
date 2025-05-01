@@ -2,13 +2,19 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { data } from "../../assets/data.js";
 import { ScoreProvider } from "../../App.jsx";
 
+import coin from "../../../public/index.js";
+
+import "./Quiz.css";
+
 const Quiz = () => {
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [userAnswer, setUserAnswer] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(60);
   const [quizFinished, setQuizFinished] = useState(false);
+  const [stars, setStars] = useState([]);
+
   const { score: finalScore, setScore: setFinalScore } =
     useContext(ScoreProvider);
 
@@ -41,7 +47,21 @@ const Quiz = () => {
     }, 5000);
   };
 
-  const handleAnswer = (selectedOption) => {
+  const triggerStarAnimation = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const newStars = Array.from({ length: 8 }).map((_, i) => ({
+      id: Date.now() + i,
+      left: rect.left + rect.width / 2,
+      top: rect.top + rect.height / 2,
+    }));
+    setStars((prev) => [...prev, ...newStars]);
+
+    setTimeout(() => {
+      setStars((prev) => prev.slice(newStars.length));
+    }, 1000);
+  };
+
+  const handleAnswer = (selectedOption, e) => {
     if (showAnswer) return;
 
     setUserAnswer(selectedOption);
@@ -51,6 +71,7 @@ const Quiz = () => {
     if (selectedOption === question.ans) {
       setScore((prev) => prev + 1);
       setFinalScore(finalScore + 4);
+      triggerStarAnimation(e);
     }
 
     autoNextTimeoutRef.current = setTimeout(() => {
@@ -86,8 +107,28 @@ const Quiz = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white flex flex-col items-center justify-center p-6 font-mono">
-      <div className="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white flex flex-col items-center justify-center p-6 font-mono relative overflow-hidden">
+      {/* Star animations */}
+      {stars.map((star) => (
+        <img
+          key={star.id}
+          src={coin}
+          className="star"
+          style={{ left: `${star.left}px`, top: `${star.top}px` }}
+          alt="star"
+        />
+      ))}
+
+      {/* Bubble Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+      </div>
+
+      <div className="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 z-10">
         <h1 className="text-4xl font-bold mb-6 text-center text-yellow-400 animate-pulse">
           🕹️ Quiz Arena
         </h1>
@@ -119,7 +160,7 @@ const Quiz = () => {
                 return (
                   <li
                     key={option}
-                    onClick={() => handleAnswer(option)}
+                    onClick={(e) => handleAnswer(option, e)}
                     className={`p-4 rounded-xl text-left transition-all cursor-pointer ${baseColor} ${
                       showAnswer ? "cursor-not-allowed" : "hover:scale-105"
                     }`}
