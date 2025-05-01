@@ -25,20 +25,20 @@ const Start = () => {
           Easy
         </p>
       </div>
-      <div className="text-lg font-bold">10 Questions</div>
-      <div className="px-[25px] py-[10px] rounded-full border-1 cursor-pointer text-xl bg-[#461f7f] text-white font-medium  ">
+      <div className="text-xl font-bold">10 Questions</div>
+      <div className="px-[25px] py-[10px] w-[200px] text-center rounded-full border-1 cursor-pointer text-xl bg-[#461f7f] text-white font-medium  ">
         <Link to="/count" className="text-white no-underline">
           Play again
         </Link>
       </div>
-      <div className="cursor-pointer">
+      <div className="cursor-pointer w-[200px] ">
         <button className="px-[25px] py-[10px] cursor-pointer rounded-full border-1  bg-[#d15173] text-white font-medium text-xl">
           <Link to="/quiz" className="text-white no-underline">
             Play With Friends
           </Link>
         </button>
       </div>
-      <div className="px-[30px] py-[10px] rounded-full border-1 bg-pink-600 text-white font-medium text-sm cursor-pointer">
+      <div className="px-[30px] py-[10px] w-[200px] text-center rounded-full border-1 bg-pink-600 text-white font-medium text-lg cursor-pointer">
         <Link to="/results" className="text-white no-underline">
           See Results
         </Link>
