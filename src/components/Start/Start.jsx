@@ -26,23 +26,23 @@ const Start = () => {
         </p>
       </div>
       <div className="text-xl font-bold">10 Questions</div>
-      <div className="px-[10px] py-[10px] w-[250px] text-center rounded-full border-1 cursor-pointer text-xl bg-[#461f7f] text-white font-medium  ">
-        <Link to="/count" className="text-white no-underline">
+      <Link to="/count" className="text-white no-underline">
+        <div className="px-[10px] py-[10px] w-[250px] text-center rounded-full border-1 cursor-pointer text-xl bg-[#461f7f] text-white font-medium  ">
           Play again
-        </Link>
-      </div>
-      <div className="cursor-pointer w-[250px] ">
-        <button className="px-[10px] py-[10px] w-full cursor-pointer rounded-full border-1  bg-[#d15173] text-white font-medium text-xl">
-          <Link to="/count" className="text-white no-underline">
+        </div>
+      </Link>
+      <Link to="/count" className="text-white no-underline">
+        <div className="cursor-pointer w-[250px] ">
+          <button className="px-[10px] py-[10px] w-full cursor-pointer rounded-full border-1  bg-[#d15173] text-white font-medium text-xl">
             Play With Friends
-          </Link>
-        </button>
-      </div>
-      <div className="px-[10px] py-[10px] w-[250px] text-center rounded-full border-1 bg-pink-600 text-white font-medium text-lg cursor-pointer">
-        <Link to="/results" className="text-white no-underline">
+          </button>
+        </div>
+      </Link>
+      <Link to="/results" className="text-white no-underline">
+        <div className="px-[10px] py-[10px] w-[250px] text-center rounded-full border-1 bg-pink-600 text-white font-medium text-lg cursor-pointer">
           See Results
-        </Link>
-      </div>
+        </div>
+      </Link>
     </div>
   );
 };

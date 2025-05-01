@@ -50,6 +50,7 @@ const Quiz = () => {
 
     if (selectedOption === question.ans) {
       setScore((prev) => prev + 1);
+      setFinalScore(finalScore + 4);
     }
 
     autoNextTimeoutRef.current = setTimeout(() => {
@@ -77,6 +78,7 @@ const Quiz = () => {
 
     setIndex(0);
     setScore(0);
+    setFinalScore(0);
     setUserAnswer(null);
     setShowAnswer(false);
     setTimer(60);
