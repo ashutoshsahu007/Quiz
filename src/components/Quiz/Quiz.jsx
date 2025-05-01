@@ -129,9 +129,9 @@ const Quiz = () => {
       </div>
 
       <div className="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 z-10">
-        <h1 className="text-4xl font-bold mb-6 text-center text-yellow-400 animate-pulse">
+        {/* <h1 className="text-4xl font-bold mb-6 text-center text-yellow-400 animate-pulse">
           🕹️ Quiz Arena
-        </h1>
+        </h1> */}
 
         {!quizFinished ? (
           <>
