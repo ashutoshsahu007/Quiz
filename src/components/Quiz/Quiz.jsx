@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { data } from "../../assets/data.js";
 import { ScoreProvider } from "../../App.jsx";
-
 import coin from "../../../public/index.js";
+import { useNavigate } from "react-router-dom";
 
 import "./Quiz.css";
 
@@ -15,6 +15,8 @@ const Quiz = () => {
   const [quizFinished, setQuizFinished] = useState(false);
   const [stars, setStars] = useState([]);
 
+  const navigate = useNavigate();
+
   const { score: finalScore, setScore: setFinalScore } =
     useContext(ScoreProvider);
 
@@ -24,7 +26,7 @@ const Quiz = () => {
   const question = data[index];
 
   useEffect(() => {
-    if (quizFinished) return;
+    if (quizFinished) navigate("/results");
 
     intervalRef.current = setInterval(() => {
       setTimer((prev) => {
@@ -133,66 +135,52 @@ const Quiz = () => {
           🕹️ Quiz Arena
         </h1> */}
 
-        {!quizFinished ? (
-          <>
-            <div className="flex justify-between items-center text-lg mb-4">
-              <span>
-                Question {index + 1} of {data.length}
-              </span>
-              <span className="text-red-400 font-bold">⏱ {timer}s</span>
-            </div>
+        <>
+          <div className="flex justify-between items-center text-lg mb-4">
+            <span>
+              Question {index + 1} of {data.length}
+            </span>
+            <span className="text-red-400 font-bold">⏱ {timer}s</span>
+          </div>
 
-            <h2 className="text-2xl font-semibold mb-4 text-blue-300">
-              {question.question}
-            </h2>
+          <h2 className="text-2xl font-semibold mb-4 text-blue-300">
+            {question.question}
+          </h2>
 
-            <ul className="space-y-4">
-              {[1, 2, 3, 4].map((option) => {
-                const isCorrect = option === question.ans;
-                const isUserChoice = option === userAnswer;
+          <ul className="space-y-4">
+            {[1, 2, 3, 4].map((option) => {
+              const isCorrect = option === question.ans;
+              const isUserChoice = option === userAnswer;
 
-                let baseColor = "bg-gray-700 hover:bg-gray-600";
-                if (showAnswer) {
-                  if (isCorrect) baseColor = "bg-green-600";
-                  else if (isUserChoice) baseColor = "bg-red-600";
-                }
+              let baseColor = "bg-gray-700 hover:bg-gray-600";
+              if (showAnswer) {
+                if (isCorrect) baseColor = "bg-green-600";
+                else if (isUserChoice) baseColor = "bg-red-600";
+              }
 
-                return (
-                  <li
-                    key={option}
-                    onClick={(e) => handleAnswer(option, e)}
-                    className={`p-4 rounded-xl text-left transition-all cursor-pointer ${baseColor} ${
-                      showAnswer ? "cursor-not-allowed" : "hover:scale-105"
-                    }`}
-                  >
-                    {question[`option${option}`]}
-                  </li>
-                );
-              })}
-            </ul>
+              return (
+                <li
+                  key={option}
+                  onClick={(e) => handleAnswer(option, e)}
+                  className={`p-4 rounded-xl text-left transition-all cursor-pointer ${baseColor} ${
+                    showAnswer ? "cursor-not-allowed" : "hover:scale-105"
+                  }`}
+                >
+                  {question[`option${option}`]}
+                </li>
+              );
+            })}
+          </ul>
 
-            {showAnswer && (
-              <button
-                onClick={goToNext}
-                className="mt-6 bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg transition-all animate-bounce"
-              >
-                Next ▶️
-              </button>
-            )}
-          </>
-        ) : (
-          <>
-            <h2 className="text-2xl mb-6 text-green-400 font-bold">
-              🎉 Quiz Completed! You scored {score} / {data.length}
-            </h2>
+          {showAnswer && (
             <button
-              onClick={resetQuiz}
-              className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-6 rounded-lg font-bold text-lg"
+              onClick={goToNext}
+              className="mt-6 bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg transition-all animate-bounce"
             >
-              Restart 🔄
+              Next ▶️
             </button>
-          </>
-        )}
+          )}
+        </>
       </div>
     </div>
   );
