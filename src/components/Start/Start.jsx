@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Start = () => {
   return (
-    <div className="pt-[30px] pb-[60px] flex flex-col items-center justify-center bg-purple-700 text-white gap-2.5">
+    <div className="pt-[30px] pb-[60px] flex flex-col items-center h-full justify-center bg-purple-700 text-white gap-2.5">
       <div>
         <img
           className="w-[250px] md:w-[350px] rounded-lg"
@@ -15,7 +15,7 @@ const Start = () => {
         <h1 className="text-3xl font-bold">Let's Start the Quiz</h1>
       </div>
       <div>
-        <p className="text-xl font-semibold">
+        <p className="text-xl font-semibold text-center p-4">
           Answer these simple questions correctly and earn coins
         </p>
       </div>
