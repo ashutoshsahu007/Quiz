@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Start = () => {
   return (
-    <div className="pt-[30px] pb-[60px] flex flex-col items-center h-full justify-center bg-purple-700 text-white gap-2.5">
+    <div className="pt-[30px] pb-[60px] flex flex-col items-center h-full justify-center bg-purple-700 text-white gap-3">
       <div>
         <img
           className="w-[300px] md:w-[350px] rounded-lg"
@@ -31,7 +31,13 @@ const Start = () => {
           Play again
         </Link>
       </div>
-
+      <div className="cursor-pointer w-[250px] ">
+        <button className="px-[10px] py-[10px] w-full cursor-pointer rounded-full border-1  bg-[#d15173] text-white font-medium text-xl">
+          <Link to="/quiz" className="text-white no-underline">
+            Play With Friends
+          </Link>
+        </button>
+      </div>
       <div className="px-[10px] py-[10px] w-[250px] text-center rounded-full border-1 bg-pink-600 text-white font-medium text-lg cursor-pointer">
         <Link to="/results" className="text-white no-underline">
           See Results
