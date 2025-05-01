@@ -1,11 +1,10 @@
 @import "tailwindcss";
 
-/* .correct {
-  background: #7bd9b3;
-  border-color: #6eceb3;
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
-.wrong {
-  background: hsl(0, 56%, 67%);
-  border-color: #c46262;
-} */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}

@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { data } from "../../assets/data.js";
+import { ScoreProvider } from "../../App.jsx";
 
 const Quiz = () => {
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [userAnswer, setUserAnswer] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(10);
   const [quizFinished, setQuizFinished] = useState(false);
+  const { score: finalScore, setScore: setFinalScore } =
+    useContext(ScoreProvider);
 
   const intervalRef = useRef(null);
   const autoNextTimeoutRef = useRef(null);
