@@ -33,7 +33,7 @@ const Start = () => {
       </div>
       <div className="cursor-pointer w-[250px] ">
         <button className="px-[10px] py-[10px] w-full cursor-pointer rounded-full border-1  bg-[#d15173] text-white font-medium text-xl">
-          <Link to="/quiz" className="text-white no-underline">
+          <Link to="/count" className="text-white no-underline">
             Play With Friends
           </Link>
         </button>

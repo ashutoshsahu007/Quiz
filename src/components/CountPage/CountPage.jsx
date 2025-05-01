@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "./CountdownStart.css";
+import { useNavigate } from "react-router-dom";
 
 const CountdownStart = ({ onStart }) => {
   const [phase, setPhase] = useState("ready");
   const [count, setCount] = useState(3);
   const [key, setKey] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (phase === "ready") {
@@ -29,14 +31,22 @@ const CountdownStart = ({ onStart }) => {
       }
     }
 
+    //   if (phase === "go") {
+    //     const timer = setTimeout(() => {
+    //       setPhase("start");
+    //       if (onStart) onStart();
+    //     }, 1000);
+    //     return () => clearTimeout(timer);
+    //   }
+    // }, [phase, count, onStart]);
+
     if (phase === "go") {
       const timer = setTimeout(() => {
-        setPhase("start");
-        if (onStart) onStart();
+        navigate("/quiz"); // ✅ Navigate to start page
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [phase, count, onStart]);
+  }, [phase, count, navigate]);
 
   const renderText = () => {
     if (phase === "ready") return "Ready?";
