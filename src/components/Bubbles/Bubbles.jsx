@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Svg from "../Svg/Svg";
 
 export default function Bubbles() {
   useEffect(() => {
@@ -36,7 +35,7 @@ export default function Bubbles() {
 
   return (
     <div
-      className="w-full min-h-screen overflow-hidden bg-[#461f7f] relative "
+      className="w-full  overflow-hidden bg-[#461f7f] relative"
       id="bubble-container"
     >
       <style>
@@ -56,31 +55,31 @@ export default function Bubbles() {
         `}
       </style>
 
-      <section className="container mx-auto px-4 py-16 z-[100] relative ">
-        <div className="grid md:grid-cols-2 gap-12">
+      <section className="container mx-auto px-4 py-16 z-[100] relative">
+        <div className="grid md:grid-cols-2 gap-12 lg:items-start lg:flex  lg:justify-center lg:gap-5">
           {/* Create Quiz Section */}
-          <div className="flex flex-col items-center text-center shadow-[0px_0px_50px_10px_rgba(0,0,0,0.1)]">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-yellow-300">
+          <div className="flex flex-col items-center  text-center shadow-[0px_0px_50px_10px_rgba(0,0,0,0.1)] lg:w-[450px] lg:px-3 lg:py-10 rounded-md">
+            <h2 className="text-4xl lg:text-6xl md:text-5xl font-bold mb-6 text-yellow-300 mt-4">
               Create Quiz
             </h2>
-            <p className="mb-8 text-lg text-white font-semibold">
+            <p className="mb-8 text-lg text-white font-semibold px-3">
               Create interactive quizzes in minutes with our online quiz maker
             </p>
-            <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-md font-medium">
+            <button className="bg-orange-500  text-white px-8 py-2 rounded-md font-medium mb-4 hover:cursor-pointer">
               Create Quiz
             </button>
           </div>
 
           {/* Quizard AI Section */}
-          <div className="flex flex-col items-center text-center shadow-[0px_0px_50px_10px_rgba(0,0,0,0.1)]">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-yellow-300">
+          <div className="flex flex-col items-center text-center shadow-[0px_0px_50px_10px_rgba(0,0,0,0.1)] lg:w-[450px] lg:px-3 lg:py-10 rounded-md">
+            <h2 className="text-4xl lg:text-6xl md:text-5xl font-[700] mb-6 text-yellow-300 mt-4">
               Quizard AI
             </h2>
-            <p className="mb-8 text-lg text-white font-semibold">
+            <p className="mb-8 text-lg text-white font-semibold px-3">
               Create quizzes instantly with AI — just enter a topic and get
               engaging questions in seconds!
             </p>
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-2 rounded-md font-medium">
+            <button className="bg-yellow-400  text-black px-8 py-2 rounded-md font-[700] mb-4 hover:cursor-pointer">
               Generate Quiz
             </button>
           </div>
