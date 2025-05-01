@@ -1,15 +1,16 @@
 import { useEffect } from "react";
+import Svg from "../Svg/Svg";
 
 export default function Bubbles() {
   useEffect(() => {
-    const numBubbles = 60;
+    const numBubbles = 65;
     const container = document.getElementById("bubble-container");
 
     for (let i = 0; i < numBubbles; i++) {
       const bubble = document.createElement("div");
       bubble.className = "bubble absolute rounded-full pointer-events-none";
       bubble.style.background = "rgba(255, 255, 255, 0.5)";
-      //   bubble.style.boxShadow = "0 0 8px rgba(255, 255, 255, 0.5)";
+      // bubble.style.boxShadow = "0 0 8px rgba(255, 255, 255, 0.5)";
       bubble.style.animation = `float linear infinite`;
 
       const size = Math.random() * 5 + 2;
@@ -26,7 +27,7 @@ export default function Bubbles() {
       bubble.style.setProperty("--x", `${moveX}px`);
       bubble.style.setProperty("--y", `${moveY}px`);
 
-      const duration = Math.random() * 30 + 10;
+      const duration = Math.random() * 30 + 30;
       bubble.style.animationDuration = `${duration}s`;
 
       container.appendChild(bubble);
@@ -35,7 +36,7 @@ export default function Bubbles() {
 
   return (
     <div
-      className="w-full h-screen overflow-hidden bg-[#461f7f] relative"
+      className="w-full min-h-screen overflow-hidden bg-[#461f7f] relative "
       id="bubble-container"
     >
       <style>
@@ -54,7 +55,8 @@ export default function Bubbles() {
           }
         `}
       </style>
-      <section className="container mx-auto px-4 py-16 z-[100] relative">
+
+      <section className="container mx-auto px-4 py-16 z-[100] relative ">
         <div className="grid md:grid-cols-2 gap-12">
           {/* Create Quiz Section */}
           <div className="flex flex-col items-center text-center shadow-[0px_0px_50px_10px_rgba(0,0,0,0.1)]">

@@ -1,19 +1,16 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Bubbles from "./components/Bubbles/Bubbles";
-import GameSection from "./components/GameSection/GameSection";
 import Header from "./components/Header/Header";
-import Home from "./components/Quiz";
-import Svg from "./components/Svg/Svg";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <Header />
-      <Bubbles />
-      <Svg />
-      {/* <Home /> */}
-      <GameSection />
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
