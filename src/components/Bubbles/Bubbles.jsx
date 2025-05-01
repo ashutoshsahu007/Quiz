@@ -58,7 +58,7 @@ export default function Bubbles() {
       <section className="container mx-auto px-4 py-16 z-[100] relative">
         <div className="grid md:grid-cols-2 gap-12 lg:items-start lg:flex  lg:justify-center lg:gap-5">
           {/* Create Quiz Section */}
-          <div className="flex flex-col items-center  text-center shadow-[0px_0px_50px_10px_rgba(0,0,0,0.1)] lg:w-[450px] lg:px-3 lg:py-10 rounded-md">
+          <div className="flex flex-col items-center  text-center shadow-[0px_0px_50px_10px_rgba(0,0,0,0.1)] lg:w-[450px] lg:px-3 lg:py-10 rounded-lg">
             <h2 className="text-4xl lg:text-6xl md:text-5xl font-bold mb-6 text-yellow-300 mt-4">
               Create Quiz
             </h2>
@@ -71,7 +71,7 @@ export default function Bubbles() {
           </div>
 
           {/* Quizard AI Section */}
-          <div className="flex flex-col items-center text-center shadow-[0px_0px_50px_10px_rgba(0,0,0,0.1)] lg:w-[450px] lg:px-3 lg:py-10 rounded-md">
+          <div className="flex flex-col items-center text-center shadow-[0px_0px_50px_10px_rgba(0,0,0,0.1)] lg:w-[450px] lg:px-3 lg:py-10 rounded-lg">
             <h2 className="text-4xl lg:text-6xl md:text-5xl font-[700] mb-6 text-yellow-300 mt-4">
               Quizard AI
             </h2>

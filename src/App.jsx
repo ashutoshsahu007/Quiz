@@ -6,6 +6,8 @@ import Quiz from "./components/Quiz/Quiz";
 import { useState, createContext } from "react";
 import Results from "./components/Results/Results";
 import LeaderBoard from "./components/LeaderBoard/LeaderBoard";
+import Start from "./components/Start/Start";
+import CountPage from "./components/CountPage/CountPage";
 
 export const ScoreProvider = createContext(0);
 
@@ -19,7 +21,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/start" element={<Start />} />
           <Route path="/leaderboard" element={<LeaderBoard />} />
+          <Route path="/count" element={<CountPage />} />
         </Routes>
       </BrowserRouter>
     </ScoreProvider.Provider>
