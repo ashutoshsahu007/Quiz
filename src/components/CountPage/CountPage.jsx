@@ -1,24 +1,76 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import "./CountdownStart.css";
 
-const CountPage = ({ onStart }) => {
+const CountdownStart = ({ onStart }) => {
+  const [phase, setPhase] = useState("ready");
   const [count, setCount] = useState(3);
-  const [started, setStarted] = useState(false);
+  const [key, setKey] = useState(0);
 
   useEffect(() => {
-    if (count > 0) {
-      const timer = setTimeout(() => setCount((prev) => prev - 1), 1000);
+    if (phase === "ready") {
+      const timer = setTimeout(() => {
+        setPhase("countdown");
+        setKey((prev) => prev + 1);
+      }, 1000);
       return () => clearTimeout(timer);
-    } else {
-      setStarted(true);
-      onStart(); // Call the game start function
     }
-  }, [count, onStart]);
+
+    if (phase === "countdown") {
+      if (count > 0) {
+        const timer = setTimeout(() => {
+          setCount((prev) => prev - 1);
+          setKey((prev) => prev + 1);
+        }, 1000);
+        return () => clearTimeout(timer);
+      } else {
+        setPhase("go");
+        setKey((prev) => prev + 1);
+      }
+    }
+
+    if (phase === "go") {
+      const timer = setTimeout(() => {
+        setPhase("start");
+        if (onStart) onStart();
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [phase, count, onStart]);
+
+  const renderText = () => {
+    if (phase === "ready") return "Ready?";
+    if (phase === "countdown") return count.toString();
+    if (phase === "go") return "Go!";
+    return null;
+  };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-black text-white text-6xl font-bold">
-      {started ? <div>Game Started!</div> : <div>{count}</div>}
+    <div className="countdown-container">
+      {/* Bubble Background */}
+      <div className="bubbles">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div className="bubble" key={i}></div>
+        ))}
+      </div>
+
+      {/* Animated Text */}
+      {phase !== "start" && (
+        <motion.div
+          key={key}
+          initial={{ scale: 0.6 }}
+          animate={{ scale: [1.2, 0.95, 1] }}
+          transition={{
+            duration: 0.6,
+            ease: "easeOut",
+          }}
+          className="countdown-text"
+        >
+          {renderText()}
+        </motion.div>
+      )}
     </div>
   );
 };
 
-export default CountPage;
+export default CountdownStart;
