@@ -7,7 +7,7 @@ const HorizontalScroll = () => {
       <h1 className="text-2xl font-bold text-gray-800 mt-4 mb-4">
         Computer Quiz 1
       </h1>
-      <div className="flex space-x-10 overflow-x-auto scrollbar-hide px-4 py-2">
+      <div className="flex space-x-3 md:space-x-10 overflow-x-auto scrollbar-hide px-4 py-2">
         {[...Array(5)].map((_, index) => (
           <Card index={index} />
         ))}
