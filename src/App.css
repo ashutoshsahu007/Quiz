@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-.correct {
+/* .correct {
   background: #7bd9b3;
   border-color: #6eceb3;
 }
@@ -8,4 +8,4 @@
 .wrong {
   background: hsl(0, 56%, 67%);
   border-color: #c46262;
-}
+} */

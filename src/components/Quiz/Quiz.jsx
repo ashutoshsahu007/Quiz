@@ -1,202 +1,153 @@
-import { useRef, useState, useContext, useEffect } from "react";
-import classes from "./Quiz.module.css";
+import React, { useState, useEffect, useRef } from "react";
 import { data } from "../../assets/data.js";
-import { ScoreProvider } from "../../App.jsx";
-import { Link } from "react-router-dom";
 
 const Quiz = () => {
   const [index, setIndex] = useState(0);
-  const [question, setQuestion] = useState(data[index]);
-  const [lock, setLock] = useState(false);
   const [score, setScore] = useState(0);
-  let [result, setResult] = useState(false);
-  const [seconds, setSeconds] = useState(59);
-  const { score: finalScore, setScore: finalSetScore } =
-    useContext(ScoreProvider);
+  const [userAnswer, setUserAnswer] = useState(null);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [timer, setTimer] = useState(60);
+  const [quizFinished, setQuizFinished] = useState(false);
 
-  const Option1 = useRef(null);
-  const Option2 = useRef(null);
-  const Option3 = useRef(null);
-  const Option4 = useRef(null);
+  const intervalRef = useRef(null);
+  const autoNextTimeoutRef = useRef(null);
 
-  const option_array = [Option1, Option2, Option3, Option4];
+  const question = data[index];
 
   useEffect(() => {
-    // Start a timer that updates every second
-    const intervalId = setInterval(() => {
-      setSeconds((prevSeconds) => {
-        if (prevSeconds <= 1) {
-          // Stop the timer if the countdown is complete
-          clearInterval(intervalId);
+    if (quizFinished) return;
+
+    intervalRef.current = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(intervalRef.current);
+          handleTimeout();
           return 0;
         }
-        return prevSeconds - 1;
+        return prev - 1;
       });
     }, 1000);
 
-    // Cleanup on component unmount
-    return () => clearInterval(intervalId);
-  });
+    return () => clearInterval(intervalRef.current);
+  }, [index, quizFinished]);
 
-  // Convert seconds to minutes and seconds for display
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
+  const handleTimeout = () => {
+    setShowAnswer(true);
+    autoNextTimeoutRef.current = setTimeout(() => {
+      goToNext();
+    }, 5000);
+  };
 
-  const checkAns = (e, ans) => {
-    if (lock === false) {
-      if (question.ans === ans) {
-        e.target.classList.add("correct");
-        setLock(true);
-        setScore((prev) => prev + 1);
-        finalSetScore(finalScore + 4);
-      } else {
-        e.target.classList.add("wrong");
-        setLock(true);
-        option_array[question.ans - 1].current.classList.add("correct");
-      }
+  const handleAnswer = (selectedOption) => {
+    if (showAnswer) return;
+
+    setUserAnswer(selectedOption);
+    setShowAnswer(true);
+    clearInterval(intervalRef.current);
+
+    if (selectedOption === question.ans) {
+      setScore((prev) => prev + 1);
+    }
+
+    autoNextTimeoutRef.current = setTimeout(() => {
+      goToNext();
+    }, 5000);
+  };
+
+  const goToNext = () => {
+    clearTimeout(autoNextTimeoutRef.current);
+    clearInterval(intervalRef.current);
+
+    if (index + 1 < data.length) {
+      setIndex((prev) => prev + 1);
+      setUserAnswer(null);
+      setShowAnswer(false);
+      setTimer(60);
+    } else {
+      setQuizFinished(true);
     }
   };
 
-  const next = () => {
-    if (lock === true) {
-      if (index === data.length - 1) {
-        setResult(true);
-        setSeconds(59);
-        return 0;
-      }
-      setIndex(index + 1);
-      setQuestion(data[index]);
-      setLock(false);
-      setSeconds(59);
+  const resetQuiz = () => {
+    clearTimeout(autoNextTimeoutRef.current);
+    clearInterval(intervalRef.current);
 
-      option_array.map((option) => {
-        option.current.classList.remove("wrong");
-        option.current.classList.remove("correct");
-        return null;
-      });
-    }
-  };
-
-  const next2 = () => {
-    if (index === data.length - 1) {
-      setResult(true);
-      return 0;
-    }
-    setIndex(index + 1);
-    setQuestion(data[index]);
-    setLock(false);
-
-    option_array.map((option) => {
-      option.current.classList.remove("wrong");
-      option.current.classList.remove("correct");
-      return null;
-    });
-  };
-
-  const reset = () => {
     setIndex(0);
-    setQuestion(data[0]);
     setScore(0);
-    setLock(false);
-    setResult(false);
+    setUserAnswer(null);
+    setShowAnswer(false);
+    setTimer(60);
+    setQuizFinished(false);
   };
-
-  if (remainingSeconds === 0) {
-    next2();
-    setSeconds(59);
-  }
 
   return (
-    <div className={classes.container}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h1>Quiz App</h1>
-        {!result && (
-          <p>
-            0{minutes}:
-            {remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}
-          </p>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white flex flex-col items-center justify-center p-6 font-mono">
+      <div className="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+        <h1 className="text-4xl font-bold mb-6 text-center text-yellow-400 animate-pulse">
+          🕹️ Quiz Arena
+        </h1>
+
+        {!quizFinished ? (
+          <>
+            <div className="flex justify-between items-center text-lg mb-4">
+              <span>
+                Question {index + 1} of {data.length}
+              </span>
+              <span className="text-red-400 font-bold">⏱ {timer}s</span>
+            </div>
+
+            <h2 className="text-2xl font-semibold mb-4 text-blue-300">
+              {question.question}
+            </h2>
+
+            <ul className="space-y-4">
+              {[1, 2, 3, 4].map((option) => {
+                const isCorrect = option === question.ans;
+                const isUserChoice = option === userAnswer;
+
+                let baseColor = "bg-gray-700 hover:bg-gray-600";
+                if (showAnswer) {
+                  if (isCorrect) baseColor = "bg-green-600";
+                  else if (isUserChoice) baseColor = "bg-red-600";
+                }
+
+                return (
+                  <li
+                    key={option}
+                    onClick={() => handleAnswer(option)}
+                    className={`p-4 rounded-xl text-left transition-all cursor-pointer ${baseColor} ${
+                      showAnswer ? "cursor-not-allowed" : "hover:scale-105"
+                    }`}
+                  >
+                    {question[`option${option}`]}
+                  </li>
+                );
+              })}
+            </ul>
+
+            {showAnswer && (
+              <button
+                onClick={goToNext}
+                className="mt-6 bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg transition-all animate-bounce"
+              >
+                Next ▶️
+              </button>
+            )}
+          </>
+        ) : (
+          <>
+            <h2 className="text-2xl mb-6 text-green-400 font-bold">
+              🎉 Quiz Completed! You scored {score} / {data.length}
+            </h2>
+            <button
+              onClick={resetQuiz}
+              className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-6 rounded-lg font-bold text-lg"
+            >
+              Restart 🔄
+            </button>
+          </>
         )}
       </div>
-
-      <hr />
-      {result ? (
-        <></>
-      ) : (
-        <>
-          <h2>
-            {index + 1}. {question.question}
-          </h2>
-          <ul>
-            <li
-              ref={Option1}
-              onClick={(e) => {
-                checkAns(e, 1);
-              }}
-            >
-              {question.option1}
-            </li>
-            <li
-              ref={Option2}
-              onClick={(e) => {
-                checkAns(e, 2);
-              }}
-            >
-              {question.option2}
-            </li>
-            <li
-              ref={Option3}
-              onClick={(e) => {
-                checkAns(e, 3);
-              }}
-            >
-              {question.option3}
-            </li>
-            <li
-              ref={Option4}
-              onClick={(e) => {
-                checkAns(e, 4);
-              }}
-            >
-              {question.option4}
-            </li>
-          </ul>
-          <button onClick={next}>Next</button>
-          <div className={classes.index}>
-            {index + 1} of {data.length} questions
-          </div>
-        </>
-      )}
-      {result ? (
-        <>
-          <h2>
-            your Score is {score * 4} out of {data.length * 4}
-          </h2>
-          <button
-            onClick={() => {
-              reset();
-              finalSetScore(0);
-            }}
-          >
-            Reset
-          </button>
-          <button>
-            <Link
-              to="/results"
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              Show Results
-            </Link>
-          </button>
-        </>
-      ) : (
-        <></>
-      )}
     </div>
   );
 };
