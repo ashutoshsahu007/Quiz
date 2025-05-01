@@ -6,7 +6,7 @@ const Start = () => {
     <div className="pt-[30px] pb-[60px] flex flex-col items-center h-full justify-center bg-purple-700 text-white gap-2.5">
       <div>
         <img
-          className="w-[250px] md:w-[350px] rounded-lg"
+          className="w-[300px] md:w-[350px] rounded-lg"
           src="quiz.avif"
           alt="image not found"
         />
@@ -15,7 +15,7 @@ const Start = () => {
         <h1 className="text-3xl font-bold">Let's Start the Quiz</h1>
       </div>
       <div>
-        <p className="text-xl font-semibold text-center p-4">
+        <p className="text-xl font-semibold text-center p-2">
           Answer these simple questions correctly and earn coins
         </p>
       </div>
@@ -26,19 +26,13 @@ const Start = () => {
         </p>
       </div>
       <div className="text-xl font-bold">10 Questions</div>
-      <div className="px-[25px] py-[10px] w-[200px] text-center rounded-full border-1 cursor-pointer text-xl bg-[#461f7f] text-white font-medium  ">
+      <div className="px-[10px] py-[10px] w-[250px] text-center rounded-full border-1 cursor-pointer text-xl bg-[#461f7f] text-white font-medium  ">
         <Link to="/count" className="text-white no-underline">
           Play again
         </Link>
       </div>
-      <div className="cursor-pointer w-[200px] ">
-        <button className="px-[25px] py-[10px] cursor-pointer rounded-full border-1  bg-[#d15173] text-white font-medium text-xl">
-          <Link to="/quiz" className="text-white no-underline">
-            Play With Friends
-          </Link>
-        </button>
-      </div>
-      <div className="px-[30px] py-[10px] w-[200px] text-center rounded-full border-1 bg-pink-600 text-white font-medium text-lg cursor-pointer">
+
+      <div className="px-[10px] py-[10px] w-[250px] text-center rounded-full border-1 bg-pink-600 text-white font-medium text-lg cursor-pointer">
         <Link to="/results" className="text-white no-underline">
           See Results
         </Link>
