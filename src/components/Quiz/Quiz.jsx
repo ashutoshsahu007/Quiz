@@ -227,9 +227,10 @@ const Quiz = () => {
           {showAnswer && (
             <button
               onClick={goToNext}
-              className="mt-6 cursor-pointer bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg transition-all animate-bounce"
+              className="mt-6 w-full hover:scale-105 transition-all text-white cursor-pointer bg-gray-700  font-bold py-2 px-6 rounded-lg  relative"
             >
-              Next ▶️
+              <span className="z-10 relative rounded-lg">Next ▶️</span>
+              <div className="absolute top-0 left-0 h-full bg-gray-600 animate-fill rounded-lg"></div>
             </button>
           )}
         </>
