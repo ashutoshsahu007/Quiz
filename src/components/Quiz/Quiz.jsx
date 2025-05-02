@@ -6,21 +6,21 @@ import { useNavigate } from "react-router-dom";
 import "./Quiz.css";
 
 const Quiz = () => {
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [userAnswer, setUserAnswer] = useState(null);
-  const [showAnswer, setShowAnswer] = useState(false);
-  const [timer, setTimer] = useState(59);
-  const [quizFinished, setQuizFinished] = useState(false);
-  const [stars, setStars] = useState([]);
-  const [totalTime, setTotalTime] = useState(0);
+  const [index, setIndex] = useState(0); // Keeps track of current question index.
+  const [score, setScore] = useState(0); // Local raw score count (not the final calculated score).
+  const [userAnswer, setUserAnswer] = useState(null); //Tracks the user's selected answer.
+  const [showAnswer, setShowAnswer] = useState(false); //Shows correct/incorrect color once answered.
+  const [timer, setTimer] = useState(59); //Countdown timer for each question.
+  const [quizFinished, setQuizFinished] = useState(false); //Indicates if the quiz has ended.
+  const [stars, setStars] = useState([]); //Manages coin/star animations.
+  const [totalTime, setTotalTime] = useState(0); //Tracks total time spent across all questions.
 
-  const [userResponses, setUserResponses] = useState([]); // to track each answer
+  const [userResponses, setUserResponses] = useState([]); //Stores each answer's metadata for the summary.
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //For redirecting to the results page after quiz ends.
 
   const { score: finalScore, setScore: setFinalScore } =
-    useContext(ScoreProvider);
+    useContext(ScoreProvider); //Accesses and updates shared score using context.
 
   const intervalRef = useRef(null);
   const autoNextTimeoutRef = useRef(null);
@@ -39,7 +39,7 @@ const Quiz = () => {
       ).length;
 
       const unattempted = total - userResponses.length;
-      const accuracy = ((correct / total) * 100).toFixed(2);
+      const accuracy = ((correct / total) * 100).toFixed(0);
       const timeSpent = totalTime; // assuming each question has full 60s allocated
       const timePerQuestion = (totalTime / total).toFixed(1);
       const finalScoreValue = correct * 4;
@@ -176,6 +176,14 @@ const Quiz = () => {
         <div className="bubble"></div>
         <div className="bubble"></div>
         <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
       </div>
 
       <div className="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 z-10">
@@ -219,7 +227,7 @@ const Quiz = () => {
           {showAnswer && (
             <button
               onClick={goToNext}
-              className="mt-6 bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg transition-all animate-bounce"
+              className="mt-6 cursor-pointer bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg transition-all animate-bounce"
             >
               Next ▶️
             </button>
