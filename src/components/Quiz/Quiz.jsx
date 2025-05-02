@@ -41,8 +41,8 @@ const Quiz = () => {
 
       const unattempted = total - userResponses.length;
       const accuracy = ((correct / total) * 100).toFixed(2);
-      const timeSpent = total * 60 - timer; // assuming each question has full 60s allocated
-      const timePerQuestion = (timeSpent / total).toFixed(2);
+      const timeSpent = totalTime; // assuming each question has full 60s allocated
+      const timePerQuestion = (totalTime / total).toFixed(2);
       const finalScoreValue = correct * 4;
 
       const summary = {
@@ -135,6 +135,9 @@ const Quiz = () => {
       setUserAnswer(null);
       setShowAnswer(false);
       setTimer(60);
+      setTotalTime(totalTime + (60 - timer));
+      console.log(timer);
+      console.log(totalTime);
     } else {
       setQuizFinished(true);
     }
