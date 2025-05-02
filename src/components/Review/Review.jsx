@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ScoreProvider } from "../../App.jsx";
 
 const Review = () => {
   const location = useLocation();
   const { userResponses, summary } = location.state || {};
   const responses = userResponses;
+  const { score: finalScore, setScore: setFinalScore } =
+    useContext(ScoreProvider);
 
   const navigate = useNavigate();
 
@@ -45,7 +48,10 @@ const Review = () => {
       ))}
 
       <button
-        onClick={() => navigate("/")}
+        onClick={() => {
+          setFinalScore(0);
+          navigate("/quiz");
+        }}
         className="mt-6 bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg"
       >
         Play Again 🔁

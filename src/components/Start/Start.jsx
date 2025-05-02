@@ -38,11 +38,11 @@ const Start = () => {
           </button>
         </div>
       </Link>
-      {/* <Link to="/results" className="text-white no-underline">
+      <Link to="/leaderboard" className="text-white no-underline">
         <div className="px-[10px] py-[10px] w-[250px] text-center rounded-full border-1 bg-pink-600 text-white font-medium text-lg cursor-pointer">
-          See Results
+          See Leaderboard
         </div>
-      </Link> */}
+      </Link>
     </div>
   );
 };
