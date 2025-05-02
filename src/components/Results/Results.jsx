@@ -13,7 +13,7 @@ import { TbTrophy } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const QuizResultCard = () => {
+const Results = () => {
   const location = useLocation();
   const { userResponses, summary } = location.state || {};
 
@@ -138,14 +138,14 @@ const QuizResultCard = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          <button className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-lg shadow-lg w-full sm:w-auto">
+          <button className="bg-purple-700 cursor-pointer hover:bg-purple-800 text-white px-6 py-2 rounded-lg shadow-lg w-full sm:w-auto">
             Share Score
           </button>
           <button
             onClick={() =>
               navigate("/review", { state: { userResponses, summary } })
             }
-            className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-lg shadow-lg w-full sm:w-auto"
+            className="bg-purple-700 cursor-pointer hover:bg-purple-800 text-white px-6 py-2 rounded-lg shadow-lg w-full sm:w-auto"
           >
             Review Questions
           </button>
@@ -168,4 +168,4 @@ const QuizResultCard = () => {
   );
 };
 
-export default QuizResultCard;
+export default Results;

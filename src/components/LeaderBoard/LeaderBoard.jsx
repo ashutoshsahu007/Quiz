@@ -92,7 +92,7 @@ const Leaderboard = () => {
       <div className="text-center">
         <button
           onClick={handleLoadMore}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition"
+          className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition"
         >
           Load More
         </button>

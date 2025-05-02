@@ -4,14 +4,13 @@ import { ScoreProvider } from "../../App.jsx";
 import coin from "../../../public/index.js";
 import { useNavigate } from "react-router-dom";
 import "./Quiz.css";
-import { summary } from "framer-motion/client";
 
 const Quiz = () => {
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [userAnswer, setUserAnswer] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(59);
   const [quizFinished, setQuizFinished] = useState(false);
   const [stars, setStars] = useState([]);
   const [totalTime, setTotalTime] = useState(0);
@@ -42,7 +41,7 @@ const Quiz = () => {
       const unattempted = total - userResponses.length;
       const accuracy = ((correct / total) * 100).toFixed(2);
       const timeSpent = totalTime; // assuming each question has full 60s allocated
-      const timePerQuestion = (totalTime / total).toFixed(2);
+      const timePerQuestion = (totalTime / total).toFixed(1);
       const finalScoreValue = correct * 4;
 
       const summary = {
@@ -130,14 +129,15 @@ const Quiz = () => {
     clearTimeout(autoNextTimeoutRef.current);
     clearInterval(intervalRef.current);
 
+    setTotalTime(totalTime + (60 - timer));
+    console.log("total timer", totalTime);
+
     if (index + 1 < data.length) {
       setIndex((prev) => prev + 1);
       setUserAnswer(null);
       setShowAnswer(false);
-      setTimer(60);
-      setTotalTime(totalTime + (60 - timer));
-      console.log(timer);
-      console.log(totalTime);
+      setTimer(59);
+      console.log("timer", timer);
     } else {
       setQuizFinished(true);
     }
@@ -152,7 +152,7 @@ const Quiz = () => {
     setFinalScore(0);
     setUserAnswer(null);
     setShowAnswer(false);
-    setTimer(60);
+    setTimer(59);
     setQuizFinished(false);
   };
 
