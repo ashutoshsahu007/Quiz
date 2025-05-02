@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import confetti from "canvas-confetti";
 import {
   FaCheckCircle,
   FaTimesCircle,
@@ -70,6 +71,35 @@ const QuizResultCard = () => {
   ];
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let isActive = true;
+
+    confetti({
+      particleCount: 200,
+      spread: 160,
+      origin: { y: 0 },
+    });
+
+    const interval = setInterval(() => {
+      if (!isActive) return;
+      confetti({
+        particleCount: 100,
+        spread: 120,
+        origin: { y: 0.1 + Math.random() * 0.3 },
+      });
+    }, 1000);
+
+    const timeout = setTimeout(() => {
+      clearInterval(interval);
+    }, 1000);
+
+    return () => {
+      isActive = false;
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-[#14313E] text-white flex flex-col items-center p-4">

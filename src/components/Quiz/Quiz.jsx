@@ -3,7 +3,6 @@ import { data } from "../../assets/data.js";
 import { ScoreProvider } from "../../App.jsx";
 import coin from "../../../public/index.js";
 import { useNavigate } from "react-router-dom";
-
 import "./Quiz.css";
 import { summary } from "framer-motion/client";
 
@@ -15,6 +14,7 @@ const Quiz = () => {
   const [timer, setTimer] = useState(60);
   const [quizFinished, setQuizFinished] = useState(false);
   const [stars, setStars] = useState([]);
+  const [totalTime, setTotalTime] = useState(0);
 
   const [userResponses, setUserResponses] = useState([]); // to track each answer
 

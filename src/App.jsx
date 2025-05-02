@@ -9,6 +9,7 @@ import CountPage from "./components/CountPage/CountPage";
 import QuizResultCard from "./components/QuizResultCard/QuizResultCard";
 import Leaderboard from "./components/LeaderBoard/LeaderBoard";
 import Review from "./components/Review/Review";
+import ResultPage from "./components/ResultPage/ResultPage";
 
 export const ScoreProvider = createContext(0);
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/results" element={<QuizResultCard />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/review" element={<Review />} />
+          <Route path="/resultPage" element={<ResultPage />} />
         </Routes>
       </BrowserRouter>
     </ScoreProvider.Provider>
