@@ -8,6 +8,7 @@ import Start from "./components/Start/Start";
 import CountPage from "./components/CountPage/CountPage";
 import QuizResultCard from "./components/QuizResultCard/QuizResultCard";
 import Leaderboard from "./components/LeaderBoard/LeaderBoard";
+import Review from "./components/Review/Review";
 
 export const ScoreProvider = createContext(0);
 
@@ -19,12 +20,12 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/start" element={<Start />} />
+          <Route path="/count" element={<CountPage />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/results" element={<QuizResultCard />} />
-          <Route path="/start" element={<Start />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/count" element={<CountPage />} />
-          <Route path="/quizz" element={<QuizResultCard />} />
+          <Route path="/review" element={<Review />} />
         </Routes>
       </BrowserRouter>
     </ScoreProvider.Provider>

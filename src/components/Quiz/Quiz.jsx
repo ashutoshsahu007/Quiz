@@ -15,6 +15,8 @@ const Quiz = () => {
   const [quizFinished, setQuizFinished] = useState(false);
   const [stars, setStars] = useState([]);
 
+  const [userResponses, setUserResponses] = useState([]); // to track each answer
+
   const navigate = useNavigate();
 
   const { score: finalScore, setScore: setFinalScore } =
@@ -26,7 +28,9 @@ const Quiz = () => {
   const question = data[index];
 
   useEffect(() => {
-    if (quizFinished) navigate("/results");
+    if (quizFinished) {
+      navigate("/review", { state: { userResponses, finalScore } });
+    }
 
     intervalRef.current = setInterval(() => {
       setTimer((prev) => {
@@ -64,6 +68,21 @@ const Quiz = () => {
   };
 
   const handleAnswer = (selectedOption, e) => {
+    setUserResponses((prev) => [
+      ...prev,
+      {
+        question: question.question,
+        selected: selectedOption,
+        correct: question.ans,
+        options: {
+          option1: question.option1,
+          option2: question.option2,
+          option3: question.option3,
+          option4: question.option4,
+        },
+      },
+    ]);
+
     if (showAnswer) return;
 
     setUserAnswer(selectedOption);
@@ -131,10 +150,6 @@ const Quiz = () => {
       </div>
 
       <div className="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 z-10">
-        {/* <h1 className="text-4xl font-bold mb-6 text-center text-yellow-400 animate-pulse">
-          🕹️ Quiz Arena
-        </h1> */}
-
         <>
           <div className="flex justify-between items-center text-lg mb-4">
             <span>
