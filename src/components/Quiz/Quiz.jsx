@@ -5,6 +5,7 @@ import coin from "../../../public/index.js";
 import { useNavigate } from "react-router-dom";
 
 import "./Quiz.css";
+import { summary } from "framer-motion/client";
 
 const Quiz = () => {
   const [index, setIndex] = useState(0);
@@ -29,7 +30,32 @@ const Quiz = () => {
 
   useEffect(() => {
     if (quizFinished) {
-      navigate("/review", { state: { userResponses, finalScore } });
+      const correct = userResponses.filter(
+        (r) => r.selected === r.correct
+      ).length;
+
+      const total = data.length;
+      const incorrect = userResponses.filter(
+        (r) => r.selected !== r.correct
+      ).length;
+
+      const unattempted = total - userResponses.length;
+      const accuracy = ((correct / total) * 100).toFixed(2);
+      const timeSpent = total * 60 - timer; // assuming each question has full 60s allocated
+      const timePerQuestion = (timeSpent / total).toFixed(2);
+      const finalScoreValue = correct * 4;
+
+      const summary = {
+        finalScore: finalScoreValue,
+        correct,
+        incorrect,
+        unattempted,
+        accuracy: `${accuracy}%`,
+        timeSpent: `${timeSpent}s`,
+        timePerQuestion: `${timePerQuestion}s`,
+      };
+
+      navigate("/results", { state: { userResponses, summary } });
     }
 
     intervalRef.current = setInterval(() => {

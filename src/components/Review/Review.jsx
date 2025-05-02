@@ -3,12 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Review = () => {
   const location = useLocation();
-  const { userResponses, finalScore } = location.state || {};
+  const { userResponses, summary } = location.state || {};
   const responses = userResponses;
 
   const navigate = useNavigate();
-
-  console.log(finalScore);
 
   return (
     <div className="min-h-screen bg-gray-950 text-white p-6 font-mono">

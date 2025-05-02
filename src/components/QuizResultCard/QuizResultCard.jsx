@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import {
   FaCheckCircle,
@@ -10,54 +10,67 @@ import { GiCoins } from "react-icons/gi";
 import { BsSpeedometer2 } from "react-icons/bs";
 import { TbTrophy } from "react-icons/tb";
 import { Link } from "react-router-dom";
-import { ScoreProvider } from "../../App";
-
-const cardData = [
-  {
-    label: "Coin Earned",
-    value: 7,
-    icon: <GiCoins className="text-yellow-400" />,
-  },
-  {
-    label: "Your Score",
-    value: 4,
-    icon: <TbTrophy className="text-yellow-400" />,
-  },
-  {
-    label: "Correct",
-    value: 1,
-    icon: <FaCheckCircle className="text-green-400" />,
-  },
-  {
-    label: "Incorrect",
-    value: 9,
-    icon: <FaTimesCircle className="text-red-400" />,
-  },
-  {
-    label: "Accuracy",
-    value: "10 %",
-    icon: <span className="text-red-300">%</span>,
-  },
-  {
-    label: "Time Spent",
-    value: "14 sec",
-    icon: <FaStopwatch className="text-blue-300" />,
-  },
-  {
-    label: "Unattempted",
-    value: 0,
-    icon: <FaMinusCircle className="text-yellow-300" />,
-  },
-  {
-    label: "Time/Ques",
-    value: "1 sec",
-    icon: <BsSpeedometer2 className="text-cyan-400" />,
-  },
-];
+import { useLocation, useNavigate } from "react-router-dom";
 
 const QuizResultCard = () => {
-  const { score: finalScore, setScore: setFinalScore } =
-    useContext(ScoreProvider);
+  const location = useLocation();
+  const { userResponses, summary } = location.state || {};
+
+  const {
+    finalScore,
+    correct,
+    incorrect,
+    unattempted,
+    accuracy,
+    timeSpent,
+    timePerQuestion,
+  } = summary;
+
+  const cardData = [
+    {
+      label: "Coin Earned",
+      value: finalScore,
+      icon: <GiCoins className="text-yellow-400" />,
+    },
+    {
+      label: "Your Score",
+      value: finalScore,
+      icon: <TbTrophy className="text-yellow-400" />,
+    },
+    {
+      label: "Correct",
+      value: correct,
+      icon: <FaCheckCircle className="text-green-400" />,
+    },
+    {
+      label: "Incorrect",
+      value: incorrect,
+      icon: <FaTimesCircle className="text-red-400" />,
+    },
+    {
+      label: "Accuracy",
+      value: accuracy,
+      icon: <span className="text-red-300">%</span>,
+    },
+    {
+      label: "Time Spent",
+      value: timeSpent,
+      icon: <FaStopwatch className="text-blue-300" />,
+    },
+    {
+      label: "Unattempted",
+      value: unattempted,
+      icon: <FaMinusCircle className="text-yellow-300" />,
+    },
+    {
+      label: "Time/Ques",
+      value: timePerQuestion,
+      icon: <BsSpeedometer2 className="text-cyan-400" />,
+    },
+  ];
+
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-[#14313E] text-white flex flex-col items-center p-4">
       <motion.div
@@ -98,7 +111,12 @@ const QuizResultCard = () => {
           <button className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-lg shadow-lg w-full sm:w-auto">
             Share Score
           </button>
-          <button className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-lg shadow-lg w-full sm:w-auto">
+          <button
+            onClick={() =>
+              navigate("/review", { state: { userResponses, summary } })
+            }
+            className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2 rounded-lg shadow-lg w-full sm:w-auto"
+          >
             Review Questions
           </button>
         </motion.div>
