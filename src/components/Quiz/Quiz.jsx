@@ -129,18 +129,14 @@ const Quiz = () => {
 
   const goToNext = () => {
     totalTime.current = totalTime.current + (60 - timer);
-    console.log(totalTime.current);
-
-    console.log("timer", timer);
 
     clearTimeout(autoNextTimeoutRef.current);
     clearInterval(intervalRef.current);
-
     if (index + 1 < data.length) {
       setIndex((prev) => prev + 1);
       setUserAnswer(null);
       setShowAnswer(false);
-      setTimer(59);
+      setTimer(10);
     } else {
       setQuizFinished(true);
     }

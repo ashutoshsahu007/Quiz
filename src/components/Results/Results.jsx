@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 import {
@@ -12,8 +12,10 @@ import { BsSpeedometer2 } from "react-icons/bs";
 import { TbTrophy } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ScoreProvider } from "../../App.jsx";
 
 const Results = () => {
+  const { score, setScore: setFinalScore } = useContext(ScoreProvider);
   const location = useLocation();
   const { userResponses, summary } = location.state || {};
 
@@ -138,8 +140,14 @@ const Results = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          <button className="bg-purple-700 font-semibold cursor-pointer hover:bg-purple-800 text-white px-6 py-2 rounded-lg shadow-lg w-full sm:w-auto">
-            Share Score
+          <button
+            onClick={() => {
+              setFinalScore(0);
+              navigate("/quiz");
+            }}
+            className="bg-purple-700 font-semibold cursor-pointer hover:bg-purple-800 text-white px-6 py-2 rounded-lg shadow-lg w-full sm:w-auto"
+          >
+            Play Again 🔁
           </button>
           <button
             onClick={() =>
