@@ -5,7 +5,7 @@ import { ScoreProvider } from "../../App.jsx";
 const Review = () => {
   const location = useLocation();
   const { userResponses, summary } = location.state || {};
-  const responses = userResponses;
+  const responses = userResponses || [];
   const { score: finalScore, setScore: setFinalScore } =
     useContext(ScoreProvider);
 
@@ -31,8 +31,6 @@ const Review = () => {
               <span>💰 Coins: {res.score}</span>
             </div>
 
-            {console.log(index)}
-
             <ul className="space-y-3">
               {[1, 2, 3, 4].map((num) => {
                 const isCorrect = num === res.correct;
@@ -50,6 +48,11 @@ const Review = () => {
                   </li>
                 );
               })}
+              {res.selected === null && (
+                <li className="p-3 rounded bg-yellow-500 text-black font-bold">
+                  ❗ Question not attempted
+                </li>
+              )}
             </ul>
           </div>
         ))}

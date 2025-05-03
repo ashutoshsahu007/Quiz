@@ -7,7 +7,6 @@ import "./Quiz.css";
 
 const Quiz = () => {
   const [index, setIndex] = useState(0);
-  // const [score, setScore] = useState(0);
   const [userAnswer, setUserAnswer] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [timer, setTimer] = useState(59);
@@ -21,7 +20,6 @@ const Quiz = () => {
   const question = data[index];
   const { score: finalScore, setScore: setFinalScore } =
     useContext(ScoreProvider);
-
   const score = useRef(0);
 
   useEffect(() => {
@@ -29,15 +27,15 @@ const Quiz = () => {
       const correct = userResponses.filter(
         (r) => r.selected === r.correct
       ).length;
-
       const total = data.length;
       const incorrect = userResponses.filter(
-        (r) => r.selected !== r.correct
+        (r) => r.selected !== r.correct && r.selected !== null
       ).length;
-
-      const unattempted = total - userResponses.length;
+      const unattempted = userResponses.filter(
+        (r) => r.selected === null
+      ).length;
       const accuracy = ((correct / total) * 100).toFixed(0);
-      const timeSpent = totalTime.current; // assuming each question has full 60s allocated
+      const timeSpent = totalTime.current;
       const timePerQuestion = (totalTime.current / total).toFixed(1);
       const finalScoreValue = correct * 4;
 
@@ -90,12 +88,21 @@ const Quiz = () => {
   };
 
   const handleAnswer = (selectedOption, e) => {
+    if (showAnswer) return;
+
+    setUserAnswer(selectedOption);
+    setShowAnswer(true);
+    clearInterval(intervalRef.current);
+
+    const isCorrect = selectedOption === question.ans;
+    const earnedScore = isCorrect ? 4 : 0;
+
     setUserResponses((prev) => [
       ...prev,
       {
         question: question.question,
         time: 60 - timer,
-        score: score.current,
+        score: earnedScore,
         selected: selectedOption,
         correct: question.ans,
         options: {
@@ -107,14 +114,7 @@ const Quiz = () => {
       },
     ]);
 
-    if (showAnswer) return;
-
-    setUserAnswer(selectedOption);
-    setShowAnswer(true);
-
-    clearInterval(intervalRef.current);
-
-    if (selectedOption === question.ans) {
+    if (isCorrect) {
       score.current = 4;
       setFinalScore(finalScore + 4);
       triggerStarAnimation(e);
@@ -130,8 +130,29 @@ const Quiz = () => {
   const goToNext = () => {
     totalTime.current = totalTime.current + (60 - timer);
 
+    // Record unattempted question
+    if (!userAnswer && !showAnswer) {
+      setUserResponses((prev) => [
+        ...prev,
+        {
+          question: question.question,
+          time: 60,
+          score: 0,
+          selected: null,
+          correct: question.ans,
+          options: {
+            option1: question.option1,
+            option2: question.option2,
+            option3: question.option3,
+            option4: question.option4,
+          },
+        },
+      ]);
+    }
+
     clearTimeout(autoNextTimeoutRef.current);
     clearInterval(intervalRef.current);
+
     if (index + 1 < data.length) {
       setIndex((prev) => prev + 1);
       setUserAnswer(null);
@@ -140,19 +161,6 @@ const Quiz = () => {
     } else {
       setQuizFinished(true);
     }
-  };
-
-  const resetQuiz = () => {
-    clearTimeout(autoNextTimeoutRef.current);
-    clearInterval(intervalRef.current);
-
-    setIndex(0);
-    score.current = 0;
-    setFinalScore(0);
-    setUserAnswer(null);
-    setShowAnswer(false);
-    setTimer(59);
-    setQuizFinished(false);
   };
 
   return (
@@ -170,19 +178,9 @@ const Quiz = () => {
 
       {/* Bubble Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
-        <div className="bubble"></div>
+        {Array.from({ length: 13 }).map((_, i) => (
+          <div className="bubble" key={i}></div>
+        ))}
       </div>
 
       <div className="w-full max-w-2xl bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 z-10">
