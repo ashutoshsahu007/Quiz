@@ -7,7 +7,7 @@ import "./Quiz.css";
 
 const Quiz = () => {
   const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
+  // const [score, setScore] = useState(0);
   const [userAnswer, setUserAnswer] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [timer, setTimer] = useState(59);
@@ -21,6 +21,8 @@ const Quiz = () => {
   const question = data[index];
   const { score: finalScore, setScore: setFinalScore } =
     useContext(ScoreProvider);
+
+  const score = useRef(0);
 
   useEffect(() => {
     if (quizFinished) {
@@ -92,6 +94,8 @@ const Quiz = () => {
       ...prev,
       {
         question: question.question,
+        time: 60 - timer,
+        score: score.current,
         selected: selectedOption,
         correct: question.ans,
         options: {
@@ -107,12 +111,15 @@ const Quiz = () => {
 
     setUserAnswer(selectedOption);
     setShowAnswer(true);
+
     clearInterval(intervalRef.current);
 
     if (selectedOption === question.ans) {
-      setScore((prev) => prev + 1);
+      score.current = 4;
       setFinalScore(finalScore + 4);
       triggerStarAnimation(e);
+    } else {
+      score.current = 0;
     }
 
     autoNextTimeoutRef.current = setTimeout(() => {
@@ -144,7 +151,7 @@ const Quiz = () => {
     clearInterval(intervalRef.current);
 
     setIndex(0);
-    setScore(0);
+    score.current = 0;
     setFinalScore(0);
     setUserAnswer(null);
     setShowAnswer(false);
