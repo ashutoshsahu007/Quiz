@@ -136,7 +136,7 @@ const Quiz = () => {
       setIndex((prev) => prev + 1);
       setUserAnswer(null);
       setShowAnswer(false);
-      setTimer(10);
+      setTimer(60);
     } else {
       setQuizFinished(true);
     }

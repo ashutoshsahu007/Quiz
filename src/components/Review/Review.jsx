@@ -31,6 +31,8 @@ const Review = () => {
               <span>💰 Coins: {res.score}</span>
             </div>
 
+            {console.log(index)}
+
             <ul className="space-y-3">
               {[1, 2, 3, 4].map((num) => {
                 const isCorrect = num === res.correct;
