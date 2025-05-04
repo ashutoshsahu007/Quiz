@@ -22,6 +22,20 @@ const Quiz = () => {
     useContext(ScoreProvider);
   const score = useRef(0);
 
+  const triggerStarAnimation = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const newStars = Array.from({ length: 8 }).map((_, i) => ({
+      id: Date.now() + i,
+      left: rect.left + rect.width / 2,
+      top: rect.top + rect.height / 2,
+    }));
+    setStars((prev) => [...prev, ...newStars]);
+
+    setTimeout(() => {
+      setStars((prev) => prev.slice(newStars.length));
+    }, 1000);
+  };
+
   useEffect(() => {
     if (quizFinished) {
       const correct = userResponses.filter(
@@ -34,7 +48,7 @@ const Quiz = () => {
       const unattempted = userResponses.filter(
         (r) => r.selected === null
       ).length;
-      const accuracy = ((correct / total) * 100).toFixed(0);
+      const accuracy = ((correct / total) * 100).toFixed(2);
       const timeSpent = totalTime.current;
       const timePerQuestion = (totalTime.current / total).toFixed(1);
       const finalScoreValue = correct * 4;
@@ -56,7 +70,7 @@ const Quiz = () => {
       setTimer((prev) => {
         if (prev <= 1) {
           clearInterval(intervalRef.current);
-          handleTimeout();
+          handleTimeout(0);
           return 0;
         }
         return prev - 1;
@@ -66,25 +80,12 @@ const Quiz = () => {
     return () => clearInterval(intervalRef.current);
   }, [index, quizFinished]);
 
-  const handleTimeout = () => {
+  const handleTimeout = (prev) => {
     setShowAnswer(true);
+    console.log("timer in handletiemout", prev);
     autoNextTimeoutRef.current = setTimeout(() => {
-      goToNext();
+      goToNext(prev);
     }, 5000);
-  };
-
-  const triggerStarAnimation = (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const newStars = Array.from({ length: 8 }).map((_, i) => ({
-      id: Date.now() + i,
-      left: rect.left + rect.width / 2,
-      top: rect.top + rect.height / 2,
-    }));
-    setStars((prev) => [...prev, ...newStars]);
-
-    setTimeout(() => {
-      setStars((prev) => prev.slice(newStars.length));
-    }, 1000);
   };
 
   const handleAnswer = (selectedOption, e) => {
@@ -101,8 +102,8 @@ const Quiz = () => {
       ...prev,
       {
         question: question.question,
-        time: 60 - timer,
-        score: earnedScore,
+        time: 59 - timer,
+        score: score.current || earnedScore,
         selected: selectedOption,
         correct: question.ans,
         options: {
@@ -127,17 +128,23 @@ const Quiz = () => {
     }, 5000);
   };
 
-  const goToNext = () => {
-    totalTime.current = totalTime.current + (60 - timer);
+  const goToNext = (prev) => {
+    const safePrev = typeof prev === "number" ? prev : timer;
+    totalTime.current = totalTime.current + 59 - safePrev;
+    console.log("timer in gotonexr", timer);
+
+    console.log("prev in gotonext", prev);
+
+    console.log("total time", totalTime.current);
 
     // Record unattempted question
-    if (!userAnswer && !showAnswer) {
+    if (!userAnswer) {
       setUserResponses((prev) => [
         ...prev,
         {
           question: question.question,
-          time: 60,
-          score: 0,
+          time: 59 - timer,
+          score: score.current,
           selected: null,
           correct: question.ans,
           options: {
@@ -157,7 +164,7 @@ const Quiz = () => {
       setIndex((prev) => prev + 1);
       setUserAnswer(null);
       setShowAnswer(false);
-      setTimer(60);
+      setTimer(59);
     } else {
       setQuizFinished(true);
     }

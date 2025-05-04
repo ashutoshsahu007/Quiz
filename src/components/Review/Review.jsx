@@ -64,7 +64,7 @@ const Review = () => {
             setFinalScore(0);
             navigate("/quiz");
           }}
-          className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg transition duration-200"
+          className="bg-yellow-500 cursor-pointer hover:bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg transition duration-200"
         >
           Play Again 🔁
         </button>
