@@ -4,6 +4,7 @@ import { ScoreProvider } from "../../App.jsx";
 import coin from "../../../public/index.js";
 import { useNavigate } from "react-router-dom";
 import "./Quiz.css";
+import { BiSolidRightArrowSquare } from "react-icons/bi";
 
 const Quiz = () => {
   const [index, setIndex] = useState(0);
@@ -138,7 +139,10 @@ const Quiz = () => {
     console.log("total time", totalTime.current);
 
     // Record unattempted question
-    if (!userAnswer) {
+    if (
+      (!userAnswer && showAnswer && safePrev == 0) ||
+      (!userAnswer && !showAnswer && safePrev == 0)
+    ) {
       setUserResponses((prev) => [
         ...prev,
         {
