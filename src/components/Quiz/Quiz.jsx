@@ -143,7 +143,7 @@ const Quiz = () => {
         ...prev,
         {
           question: question.question,
-          time: 59 - timer,
+          time: 59,
           score: score.current,
           selected: null,
           correct: question.ans,
